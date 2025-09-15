@@ -1,0 +1,26 @@
+modules:
+  macro:
+    - key: aq-kalender
+      resource: main
+      resolver:
+        function: resolver
+      title: AQ Kalender
+      description: Zeigt drei Aequitas Kalender an
+  function:
+    - key: resolver
+      handler: index.handler
+resources:
+  - key: main
+    path: static/kalender/build
+remotes:
+- key: office365
+  baseUrl: "https://outlook.office365.com"
+  operations:
+    - fetch
+    - compute
+app:
+  runtime:
+    name: nodejs22.x
+    memoryMB: 256
+    architecture: arm64
+  id: ari:cloud:ecosystem::app/686af085-c43f-47a1-8a4c-641b0b6904c9
