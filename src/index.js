@@ -225,12 +225,17 @@ async function loadAndProcessAllCalendars() {
 // Resolver definitions
 resolver.define('getData', async (req) => {
   try {
+    let futureEvents;
+    
     if (eventCache.isValid()) {
       console.log('Returning cached events');
-      return getFutureEvents(eventCache.get());
+      futureEvents = getFutureEvents(eventCache.get());
+    } else {
+      futureEvents = await loadAndProcessAllCalendars();
     }
     
-    return await loadAndProcessAllCalendars();
+    // Return only the closest 3 upcoming events
+    return futureEvents.slice(0, 3);
   } catch (error) {
     console.error('Error in getData:', error);
     throw error;
